@@ -1,22 +1,26 @@
 import os
 from pathlib import Path
+from typing import Dict, Optional
 
 import joblib
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-
-MODEL_PATH = Path(os.getenv("MODEL_PATH", "models/sepal_length_model.pkl"))
+MODEL_PATH = Path(os.getenv("MODEL_PATH", "models/iris_species_model.pkl"))
 
 app = FastAPI(title="Iris Sepal Length API", version="1.0")
 
 
 class PredictRequest(BaseModel):
+    sepal_length: float
     sepal_width: float
+    petal_length: float
+    petal_width: float
 
 
 class PredictResponse(BaseModel):
-    sepal_length_pred: float
+    species_pred: str
+    probabilities: Optional[Dict[str, float]] = None
 
 
 def load_model(path: Path):
@@ -42,5 +46,20 @@ def predict(request: PredictRequest):
     if not hasattr(app.state, "model"):
         raise HTTPException(status_code=500, detail="Model not loaded")
 
-    prediction = app.state.model.predict([[request.sepal_width]])
-    return PredictResponse(sepal_length_pred=float(prediction[0]))
+    features = [
+        [
+            request.sepal_length,
+            request.sepal_width,
+            request.petal_length,
+            request.petal_width,
+        ]
+    ]
+    model = app.state.model
+    prediction = model.predict(features)[0]
+    probabilities = None
+    if hasattr(model, "predict_proba"):
+        proba = model.predict_proba(features)[0]
+        classes = model.classes_ if hasattr(model, "classes_") else range(len(proba))
+        probabilities = {str(cls): float(p) for cls, p in zip(classes, proba)}
+
+    return PredictResponse(species_pred=str(prediction), probabilities=probabilities)

@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/135881887798274322/85371f58260c4ee5ab2ff7527154a6c6/artifacts
+end_time: 1770041978333
+entry_point_name: ''
+experiment_id: '135881887798274322'
+lifecycle_stage: active
+run_id: 85371f58260c4ee5ab2ff7527154a6c6
+run_name: Lasso
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770041976983
+status: 3
+tags: []
+user_id: antonin

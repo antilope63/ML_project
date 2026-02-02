@@ -3,7 +3,7 @@ services:
     build: .
     command: uvicorn scripts.serve:app --host 0.0.0.0 --port 8000
     environment:
-      - MODEL_PATH=/app/models/sepal_length_model.pkl
+      - MODEL_PATH=/app/models/iris_species_model.pkl
       - MLFLOW_TRACKING_URI=file:/app/mlruns
     volumes:
       - ./data:/app/data
@@ -29,10 +29,10 @@ services:
 
   train:
     build: .
-    command: python scripts/train.py --db /app/data/iris.db --table iris_raw --model-out /app/models/sepal_length_model.pkl
+    command: python scripts/train.py --db /app/data/iris.db --table iris_raw --model-out /app/models/iris_species_model.pkl
     environment:
       - MLFLOW_TRACKING_URI=file:/app/mlruns
-      - MLFLOW_EXPERIMENT_NAME=iris_sepal_length
+      - MLFLOW_EXPERIMENT_NAME=iris_species_classification
     volumes:
       - ./data:/app/data
       - ./models:/app/models

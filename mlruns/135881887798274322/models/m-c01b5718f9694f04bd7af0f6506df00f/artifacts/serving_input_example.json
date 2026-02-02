@@ -1,0 +1,15 @@
+{
+  "dataframe_split": {
+    "columns": [
+      "sepal_width"
+    ],
+    "data": [
+      [
+        3.6
+      ],
+      [
+        4.4
+      ]
+    ]
+  }
+}

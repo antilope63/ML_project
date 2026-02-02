@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/135881887798274322/2c72ed4961e349a7be07a251e26c0512/artifacts
+end_time: 1770041981221
+entry_point_name: ''
+experiment_id: '135881887798274322'
+lifecycle_stage: active
+run_id: 2c72ed4961e349a7be07a251e26c0512
+run_name: KNeighborsRegressor
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770041979901
+status: 3
+tags: []
+user_id: antonin

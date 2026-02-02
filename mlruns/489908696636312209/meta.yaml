@@ -1,0 +1,6 @@
+artifact_location: file:///Users/antonin/Documents/ML_project/mlruns/489908696636312209
+creation_time: 1770042473702
+experiment_id: '489908696636312209'
+last_update_time: 1770042473702
+lifecycle_stage: active
+name: iris_species_classification

@@ -1,0 +1,55 @@
+{
+  "rows": 150,
+  "test_size": 0.2,
+  "select_metric": "accuracy",
+  "best_model": "SVC",
+  "best_metrics": {
+    "accuracy": 0.9666666666666667,
+    "f1_macro": 0.9665831244778612,
+    "precision_macro": 0.9696969696969697,
+    "recall_macro": 0.9666666666666667
+  },
+  "all_results": [
+    {
+      "model": "LogisticRegression",
+      "accuracy": 0.9333333333333333,
+      "f1_macro": 0.9333333333333332,
+      "precision_macro": 0.9333333333333332,
+      "recall_macro": 0.9333333333333332
+    },
+    {
+      "model": "RandomForestClassifier",
+      "accuracy": 0.9,
+      "f1_macro": 0.899749373433584,
+      "precision_macro": 0.9023569023569024,
+      "recall_macro": 0.9
+    },
+    {
+      "model": "KNeighborsClassifier",
+      "accuracy": 0.9333333333333333,
+      "f1_macro": 0.9326599326599326,
+      "precision_macro": 0.9444444444444445,
+      "recall_macro": 0.9333333333333332
+    },
+    {
+      "model": "SVC",
+      "accuracy": 0.9666666666666667,
+      "f1_macro": 0.9665831244778612,
+      "precision_macro": 0.9696969696969697,
+      "recall_macro": 0.9666666666666667
+    },
+    {
+      "model": "DecisionTreeClassifier",
+      "accuracy": 0.9333333333333333,
+      "f1_macro": 0.9333333333333332,
+      "precision_macro": 0.9333333333333332,
+      "recall_macro": 0.9333333333333332
+    }
+  ],
+  "features": [
+    "sepal_length",
+    "sepal_width",
+    "petal_length",
+    "petal_width"
+  ]
+}
