@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/0/b2511758db524fb79199daa34cd020d6/artifacts
+end_time: 1770025451582
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b2511758db524fb79199daa34cd020d6
+run_name: adaptable-snipe-908
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770025448803
+status: 3
+tags: []
+user_id: antonin

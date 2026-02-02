@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/0/a8fba85f10394ed2a9c92fc6b2236972/artifacts
+end_time: 1770025593643
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: a8fba85f10394ed2a9c92fc6b2236972
+run_name: rare-pig-552
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770025590044
+status: 3
+tags: []
+user_id: antonin
