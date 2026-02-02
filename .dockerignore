@@ -1,0 +1,6 @@
+.git
+__pycache__
+*.pyc
+mlruns
+data/*.db
+models/*.pkl

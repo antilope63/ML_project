@@ -1,0 +1,40 @@
+services:
+  api:
+    build: .
+    command: uvicorn scripts.serve:app --host 0.0.0.0 --port 8000
+    environment:
+      - MODEL_PATH=/app/models/sepal_length_model.pkl
+      - MLFLOW_TRACKING_URI=file:/app/mlruns
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./mlruns:/app/mlruns
+    ports:
+      - "8000:8000"
+
+  mlflow:
+    build: .
+    command: mlflow ui --host 0.0.0.0 --port 5000 --backend-store-uri /app/mlruns
+    volumes:
+      - ./mlruns:/app/mlruns
+    ports:
+      - "5000:5000"
+
+  load:
+    build: .
+    command: python scripts/load_db.py --csv /app/data/iris.csv --db /app/data/iris.db --table iris_raw
+    volumes:
+      - ./data:/app/data
+    profiles: ["jobs"]
+
+  train:
+    build: .
+    command: python scripts/train.py --db /app/data/iris.db --table iris_raw --model-out /app/models/sepal_length_model.pkl
+    environment:
+      - MLFLOW_TRACKING_URI=file:/app/mlruns
+      - MLFLOW_EXPERIMENT_NAME=iris_sepal_length
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./mlruns:/app/mlruns
+    profiles: ["jobs"]
