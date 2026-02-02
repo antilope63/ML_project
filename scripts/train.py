@@ -11,7 +11,6 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sqlalchemy import create_engine
 
-
 EXPECTED_COLS = {
     "sepal_length",
     "sepal_width",
@@ -38,10 +37,14 @@ def load_from_sql(db_path: Path, table: str) -> pd.DataFrame:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Train regression model for sepal_length")
+    parser = argparse.ArgumentParser(
+        description="Train regression model for sepal_length"
+    )
     parser.add_argument("--db", dest="db_path", default="data/iris.db")
     parser.add_argument("--table", dest="table", default="iris_raw")
-    parser.add_argument("--model-out", dest="model_out", default="models/sepal_length_model.pkl")
+    parser.add_argument(
+        "--model-out", dest="model_out", default="models/sepal_length_model.pkl"
+    )
     parser.add_argument("--test-size", dest="test_size", type=float, default=0.2)
     parser.add_argument("--random-state", dest="random_state", type=int, default=42)
     parser.add_argument(
@@ -73,7 +76,8 @@ def main() -> None:
 
         y_pred = model.predict(X_test)
         mae = mean_absolute_error(y_test, y_pred)
-        rmse = mean_squared_error(y_test, y_pred, squared=False)
+        mse = mean_squared_error(y_test, y_pred)
+        rmse = mse**0.5
         r2 = r2_score(y_test, y_pred)
 
         mlflow.log_param("model", "LinearRegression")
