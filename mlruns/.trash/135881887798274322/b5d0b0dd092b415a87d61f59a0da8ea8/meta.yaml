@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/135881887798274322/b5d0b0dd092b415a87d61f59a0da8ea8/artifacts
+deleted_time: 1770043484891
+end_time: 1770041395812
+entry_point_name: ''
+experiment_id: '135881887798274322'
+lifecycle_stage: deleted
+run_id: b5d0b0dd092b415a87d61f59a0da8ea8
+run_name: model_comparison
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770041388775
+status: 3
+tags: []
+user_id: antonin

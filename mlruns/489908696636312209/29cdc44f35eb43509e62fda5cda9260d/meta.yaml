@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/489908696636312209/29cdc44f35eb43509e62fda5cda9260d/artifacts
+end_time: 1770108269226
+entry_point_name: ''
+experiment_id: '489908696636312209'
+lifecycle_stage: active
+run_id: 29cdc44f35eb43509e62fda5cda9260d
+run_name: LogisticRegression
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770108265846
+status: 3
+tags: []
+user_id: antonin

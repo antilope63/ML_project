@@ -1,0 +1,4 @@
+{
+  "logisticregression__C": 10.0,
+  "logisticregression__solver": "lbfgs"
+}

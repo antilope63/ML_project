@@ -1,0 +1,5 @@
+{
+  "kneighborsclassifier__n_neighbors": 3,
+  "kneighborsclassifier__p": 2,
+  "kneighborsclassifier__weights": "distance"
+}

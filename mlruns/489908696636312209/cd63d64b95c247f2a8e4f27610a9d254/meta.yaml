@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/489908696636312209/cd63d64b95c247f2a8e4f27610a9d254/artifacts
+end_time: 1770112777419
+entry_point_name: ''
+experiment_id: '489908696636312209'
+lifecycle_stage: active
+run_id: cd63d64b95c247f2a8e4f27610a9d254
+run_name: KNeighborsClassifier
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770112775866
+status: 3
+tags: []
+user_id: antonin

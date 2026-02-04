@@ -46,6 +46,18 @@ python scripts/train.py --db data/iris.db --table iris_raw --model-out models/ir
 
 Options: `accuracy`, `f1_macro`, `precision_macro`, `recall_macro`.
 
+Par défaut, une recherche d’hyperparamètres (CV) est faite pour chaque modèle. Pour aller plus vite :
+
+```bash
+python scripts/train.py --db data/iris.db --table iris_raw --model-out models/iris_species_model.pkl --no-search
+```
+
+Tu peux aussi changer le nombre de folds :
+
+```bash
+python scripts/train.py --db data/iris.db --table iris_raw --model-out models/iris_species_model.pkl --cv 3
+```
+
 4. Lancer l’API
 
 ```bash

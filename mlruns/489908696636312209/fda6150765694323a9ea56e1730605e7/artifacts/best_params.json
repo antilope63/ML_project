@@ -1,0 +1,5 @@
+{
+  "svc__C": 10.0,
+  "svc__gamma": "scale",
+  "svc__kernel": "rbf"
+}

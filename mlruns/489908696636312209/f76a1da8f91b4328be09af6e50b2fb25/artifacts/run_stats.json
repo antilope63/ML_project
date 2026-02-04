@@ -1,0 +1,69 @@
+{
+  "rows": 150,
+  "test_size": 0.2,
+  "select_metric": "f1_macro",
+  "search": true,
+  "cv_folds": 10,
+  "best_model": "LogisticRegression",
+  "best_metrics": {
+    "f1_macro": 1.0
+  },
+  "all_results": [
+    {
+      "model": "LogisticRegression",
+      "cv_score": 0.9661375661375662,
+      "best_params": {
+        "logisticregression__C": 10.0,
+        "logisticregression__solver": "lbfgs"
+      },
+      "f1_macro": 1.0
+    },
+    {
+      "model": "RandomForestClassifier",
+      "cv_score": 0.9576719576719576,
+      "best_params": {
+        "max_depth": null,
+        "min_samples_leaf": 1,
+        "min_samples_split": 4,
+        "n_estimators": 500
+      },
+      "f1_macro": 0.9665831244778612
+    },
+    {
+      "model": "KNeighborsClassifier",
+      "cv_score": 0.9579365079365081,
+      "best_params": {
+        "kneighborsclassifier__n_neighbors": 3,
+        "kneighborsclassifier__p": 2,
+        "kneighborsclassifier__weights": "uniform"
+      },
+      "f1_macro": 0.9326599326599326
+    },
+    {
+      "model": "SVC",
+      "cv_score": 0.9661375661375662,
+      "best_params": {
+        "svc__C": 0.1,
+        "svc__gamma": "scale",
+        "svc__kernel": "linear"
+      },
+      "f1_macro": 0.9333333333333332
+    },
+    {
+      "model": "DecisionTreeClassifier",
+      "cv_score": 0.9576719576719576,
+      "best_params": {
+        "max_depth": null,
+        "min_samples_leaf": 1,
+        "min_samples_split": 4
+      },
+      "f1_macro": 0.9333333333333332
+    }
+  ],
+  "features": [
+    "sepal_length",
+    "sepal_width",
+    "petal_length",
+    "petal_width"
+  ]
+}

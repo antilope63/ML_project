@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/135881887798274322/a55d0aac5e0e4254bdc13cfc68233eb7/artifacts
+deleted_time: 1770043484891
+end_time: 1770041390438
+entry_point_name: ''
+experiment_id: '135881887798274322'
+lifecycle_stage: deleted
+run_id: a55d0aac5e0e4254bdc13cfc68233eb7
+run_name: LinearRegression
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770041388782
+status: 3
+tags: []
+user_id: antonin

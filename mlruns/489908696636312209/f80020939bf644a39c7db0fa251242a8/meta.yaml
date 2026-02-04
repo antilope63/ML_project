@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/489908696636312209/f80020939bf644a39c7db0fa251242a8/artifacts
+end_time: 1770112750170
+entry_point_name: ''
+experiment_id: '489908696636312209'
+lifecycle_stage: active
+run_id: f80020939bf644a39c7db0fa251242a8
+run_name: SVC
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770112748797
+status: 3
+tags: []
+user_id: antonin

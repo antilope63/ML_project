@@ -1,0 +1,10 @@
+artifact_location: file:///Users/antonin/Documents/ML_project/mlruns/489908696636312209/models/m-508716c076aa421c864b5376a191d31a/artifacts
+creation_timestamp: 1770112746008
+experiment_id: '489908696636312209'
+last_updated_timestamp: 1770112747402
+model_id: m-508716c076aa421c864b5376a191d31a
+model_type: null
+name: model
+source_run_id: 58185b11275841babb246f6d8fc91876
+status: 2
+status_message: null

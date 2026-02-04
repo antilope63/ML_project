@@ -1,0 +1,36 @@
+artifact_path: file:///Users/antonin/Documents/ML_project/mlruns/489908696636312209/models/m-576a3d5571944da88358f802109b8744/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.9.6
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+is_signature_from_type_hint: false
+mlflow_version: 3.1.4
+model_id: m-576a3d5571944da88358f802109b8744
+model_size_bytes: 269037
+model_uuid: m-576a3d5571944da88358f802109b8744
+prompts: null
+run_id: 9f054b98db5b4c089faee032990b1675
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "double", "name": "sepal_length", "required": true}, {"type":
+    "double", "name": "sepal_width", "required": true}, {"type": "double", "name":
+    "petal_length", "required": true}, {"type": "double", "name": "petal_width", "required":
+    true}]'
+  outputs: '[{"type": "string", "required": true}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-02-03 09:04:42.681978'

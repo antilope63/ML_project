@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/135881887798274322/59b55873353c4a8482de1a33df8bb3a7/artifacts
+deleted_time: 1770043484891
+end_time: 1770041394477
+entry_point_name: ''
+experiment_id: '135881887798274322'
+lifecycle_stage: deleted
+run_id: 59b55873353c4a8482de1a33df8bb3a7
+run_name: RandomForestRegressor
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770041392976
+status: 3
+tags: []
+user_id: antonin

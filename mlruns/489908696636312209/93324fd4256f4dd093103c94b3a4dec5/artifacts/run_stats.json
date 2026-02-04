@@ -1,0 +1,87 @@
+{
+  "rows": 150,
+  "test_size": 0.2,
+  "select_metric": "accuracy",
+  "search": true,
+  "cv_folds": 3,
+  "best_model": "SVC",
+  "best_metrics": {
+    "accuracy": 0.9666666666666667,
+    "f1_macro": 0.9665831244778612,
+    "precision_macro": 0.9696969696969697,
+    "recall_macro": 0.9666666666666667
+  },
+  "all_results": [
+    {
+      "model": "LogisticRegression",
+      "cv_score": 0.9583333333333334,
+      "best_params": {
+        "logisticregression__C": 1.0,
+        "logisticregression__solver": "lbfgs"
+      },
+      "accuracy": 0.9333333333333333,
+      "f1_macro": 0.9333333333333332,
+      "precision_macro": 0.9333333333333332,
+      "recall_macro": 0.9333333333333332
+    },
+    {
+      "model": "RandomForestClassifier",
+      "cv_score": 0.9583333333333334,
+      "best_params": {
+        "max_depth": null,
+        "min_samples_leaf": 1,
+        "min_samples_split": 4,
+        "n_estimators": 200
+      },
+      "accuracy": 0.9666666666666667,
+      "f1_macro": 0.9665831244778612,
+      "precision_macro": 0.9696969696969697,
+      "recall_macro": 0.9666666666666667
+    },
+    {
+      "model": "KNeighborsClassifier",
+      "cv_score": 0.9666666666666667,
+      "best_params": {
+        "kneighborsclassifier__n_neighbors": 3,
+        "kneighborsclassifier__p": 2,
+        "kneighborsclassifier__weights": "distance"
+      },
+      "accuracy": 0.9666666666666667,
+      "f1_macro": 0.9665831244778613,
+      "precision_macro": 0.9696969696969697,
+      "recall_macro": 0.9666666666666667
+    },
+    {
+      "model": "SVC",
+      "cv_score": 0.975,
+      "best_params": {
+        "svc__C": 10.0,
+        "svc__gamma": "scale",
+        "svc__kernel": "rbf"
+      },
+      "accuracy": 0.9666666666666667,
+      "f1_macro": 0.9665831244778612,
+      "precision_macro": 0.9696969696969697,
+      "recall_macro": 0.9666666666666667
+    },
+    {
+      "model": "DecisionTreeClassifier",
+      "cv_score": 0.9416666666666668,
+      "best_params": {
+        "max_depth": null,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2
+      },
+      "accuracy": 0.9333333333333333,
+      "f1_macro": 0.9333333333333332,
+      "precision_macro": 0.9333333333333332,
+      "recall_macro": 0.9333333333333332
+    }
+  ],
+  "features": [
+    "sepal_length",
+    "sepal_width",
+    "petal_length",
+    "petal_width"
+  ]
+}
