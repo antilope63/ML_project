@@ -87,26 +87,41 @@ mlflow ui --backend-store-uri mlruns --host 0.0.0.0 --port 5000
 
 ## Exécution Docker
 
-1. Build et lancer l’API + MLflow UI (dans un seul container)
+1. Entraîner un seul modèle (LogisticRegression) sur 100% des données
+
+```bash
+python3 -B scripts/train.py --db data/iris.db --table iris_raw \
+  --model-out models/iris_species_model.pkl --model LogisticRegression --cv 10 --refit-full
+```
+
+2. Build et lancer l’API + MLflow UI (dans un seul container)
 
 ```bash
 docker build -t iris-api .
 docker run --rm -p 8000:8000 -p 5000:5000 iris-api
 ```
 
-2. Tester l’API
+Si le port 5000 est déjà utilisé, lance plutôt :
+
+```bash
+docker run --rm -p 8000:8000 -p 5001:5000 iris-api
+```
+
+3. Tester l’API
 
 ```bash
 curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d '{"sepal_length": 5.1, "sepal_width": 3.5, "petal_length": 1.4, "petal_width": 0.2}'
 ```
 
-3. Ouvrir MLflow UI
+4. Ouvrir MLflow UI
 
 - http://localhost:5000
+- (ou http://localhost:5001 si tu as changé le port)
 
 ## Notes
 
 - Le modèle prédit l’**espèce** à partir de **sepal_length, sepal_width, petal_length, petal_width**.
 - La métrique utilisée est **f1_macro**.
-- 5 modèles sont comparés: LogisticRegression, RandomForestClassifier, KNeighborsClassifier, SVC, DecisionTreeClassifier.
-- L’API dépend du **meilleur modèle** entraîné (`models/iris_species_model.pkl`).
+- 5 modèles peuvent être comparés: LogisticRegression, RandomForestClassifier, KNeighborsClassifier, SVC, DecisionTreeClassifier.
+- Le modèle exporté pour l’API est **LogisticRegression** (`models/iris_species_model.pkl`).
+- La réponse `/predict` inclut `probabilities`, `confidence` et `decision` (phrase explicite).

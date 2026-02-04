@@ -4,3 +4,4 @@ __pycache__
 mlruns
 data/*.db
 models/*.pkl
+!models/iris_species_model.pkl
