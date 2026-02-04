@@ -29,6 +29,14 @@ FEATURES = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
 
 SCORING_NAME = "f1_macro"
 FINAL_MODEL_NAME = "LogisticRegression"
+MODEL_CHOICES = [
+    "all",
+    "LogisticRegression",
+    "RandomForestClassifier",
+    "KNeighborsClassifier",
+    "SVC",
+    "DecisionTreeClassifier",
+]
 
 
 def load_from_sql(db_path: Path, table: str) -> pd.DataFrame:
@@ -126,6 +134,13 @@ def main() -> None:
         action="store_true",
         help="Refit the best model on the full dataset before saving.",
     )
+    parser.add_argument(
+        "--model",
+        dest="model_name",
+        choices=MODEL_CHOICES,
+        default="all",
+        help="Train a single model or all models.",
+    )
     parser.add_argument("--cv", dest="cv", type=int, default=5)
     parser.add_argument(
         "--no-search",
@@ -169,6 +184,8 @@ def main() -> None:
 
         input_example = X_train.head(2)
         model_specs = build_model_specs(args.random_state)
+        if args.model_name != "all":
+            model_specs = {args.model_name: model_specs[args.model_name]}
         scoring_name = SCORING_NAME
         cv = StratifiedKFold(
             n_splits=args.cv, shuffle=True, random_state=args.random_state
@@ -233,7 +250,7 @@ def main() -> None:
                     best_model = model
                     best_metrics = metrics
 
-        if FINAL_MODEL_NAME in trained_models:
+        if args.model_name == "all" and FINAL_MODEL_NAME in trained_models:
             best_name = FINAL_MODEL_NAME
             best_model = trained_models[FINAL_MODEL_NAME]
             best_metrics = metrics_by_model[FINAL_MODEL_NAME]

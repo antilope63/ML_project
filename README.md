@@ -42,6 +42,12 @@ La comparaison utilise la **f1_macro** en CV.
 L’entraînement se fait sur 100% des données (pas de split).
 Le modèle exporté pour l’API est **LogisticRegression**.
 
+Pour entraîner un seul modèle (ex: LogisticRegression) :
+
+```bash
+python scripts/train.py --db data/iris.db --table iris_raw --model-out models/iris_species_model.pkl --model LogisticRegression --refit-full
+```
+
 Pour sauvegarder un modèle final entraîné sur 100% des données (après sélection),
 ajoute `--refit-full` :
 
