@@ -38,13 +38,16 @@ python scripts/load_db.py --csv "Iris Data.csv" --db data/iris.db --table iris_r
 python scripts/train.py --db data/iris.db --table iris_raw --model-out models/iris_species_model.pkl
 ```
 
-Par défaut, le meilleur modèle est choisi selon l’**accuracy**. Tu peux changer la métrique de sélection :
+La comparaison utilise la **f1_macro** en CV.
+L’entraînement se fait sur 100% des données (pas de split).
+Le modèle exporté pour l’API est **LogisticRegression**.
+
+Pour sauvegarder un modèle final entraîné sur 100% des données (après sélection),
+ajoute `--refit-full` :
 
 ```bash
-python scripts/train.py --db data/iris.db --table iris_raw --model-out models/iris_species_model.pkl --select-metric accuracy
+python scripts/train.py --db data/iris.db --table iris_raw --model-out models/iris_species_model.pkl --refit-full
 ```
-
-Options: `accuracy`, `f1_macro`, `precision_macro`, `recall_macro`.
 
 Par défaut, une recherche d’hyperparamètres (CV) est faite pour chaque modèle. Pour aller plus vite :
 
@@ -73,42 +76,31 @@ curl -X POST http://127.0.0.1:8000/predict -H "Content-Type: application/json" -
 6. UI MLflow (optionnel)
 
 ```bash
-mlflow ui --backend-store-uri mlruns
+mlflow ui --backend-store-uri mlruns --host 0.0.0.0 --port 5000
 ```
 
 ## Exécution Docker
 
-1. Build et lancer l’API + MLflow UI
+1. Build et lancer l’API + MLflow UI (dans un seul container)
 
 ```bash
-docker compose up -d api mlflow
+docker build -t iris-api .
+docker run --rm -p 8000:8000 -p 5000:5000 iris-api
 ```
 
-2. Charger le CSV (job)
-
-```bash
-docker compose run --rm load
-```
-
-3. Entraîner le modèle (job)
-
-```bash
-docker compose run --rm train
-```
-
-4. Tester l’API
+2. Tester l’API
 
 ```bash
 curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d '{"sepal_length": 5.1, "sepal_width": 3.5, "petal_length": 1.4, "petal_width": 0.2}'
 ```
 
-5. Ouvrir MLflow UI
+3. Ouvrir MLflow UI
 
 - http://localhost:5000
 
 ## Notes
 
 - Le modèle prédit l’**espèce** à partir de **sepal_length, sepal_width, petal_length, petal_width**.
-- Les métriques sont accuracy, F1 macro, précision macro, rappel macro.
+- La métrique utilisée est **f1_macro**.
 - 5 modèles sont comparés: LogisticRegression, RandomForestClassifier, KNeighborsClassifier, SVC, DecisionTreeClassifier.
 - L’API dépend du **meilleur modèle** entraîné (`models/iris_species_model.pkl`).

@@ -29,7 +29,7 @@ services:
 
   train:
     build: .
-    command: python scripts/train.py --db /app/data/iris.db --table iris_raw --model-out /app/models/iris_species_model.pkl
+    command: python scripts/train.py --db /app/data/iris.db --table iris_raw --model-out /app/models/iris_species_model.pkl --refit-full
     environment:
       - MLFLOW_TRACKING_URI=file:/app/mlruns
       - MLFLOW_EXPERIMENT_NAME=iris_species_classification

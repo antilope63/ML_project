@@ -17,35 +17,33 @@ Prédire l’**espèce** (`species`) à partir des 4 mesures (`sepal_length`, `s
 - **Pipeline** : scripts Python (ingestion → SQL → train → MLflow)
 - **Tracking** : MLflow local (`mlruns`)
 - **API** : FastAPI (`/predict`)
-- **Docker** : docker-compose (API + MLflow UI)
+- **Docker** : image unique (API + MLflow UI)
 
 ## 4. Pipeline détaillé
 
 1. Ingestion CSV
 2. Chargement SQL (table `iris_raw`)
 3. Lecture SQL → DataFrame
-4. Split train/test
-5. Entraînement + comparaison de 5 modèles (classification)
-6. Recherche d’hyperparamètres (CV) + sélection du meilleur
-7. Évaluation (accuracy, F1 macro, precision macro, recall macro)
-8. Logging MLflow (params, métriques, modèle)
+4. Entraînement + comparaison de 5 modèles (classification)
+5. Recherche d’hyperparamètres (CV) + sélection du meilleur
+6. Évaluation via CV (f1_macro)
+7. Logging MLflow (params, métriques, modèle)
+8. Refit final sur 100% des données (option `--refit-full`)
 9. Déploiement API
 
 ## 5. Choix techniques
 
 - SQLite : simple, léger, portable
 - Modèles : LogisticRegression, RandomForest, KNN, SVC, DecisionTree
-- Sélection : accuracy (par défaut) ou métriques macro
+- Sélection : f1_macro
 - Validation : CV pour hyperparamètres
+- Modèle exporté : LogisticRegression
 - MLflow : traçabilité des runs
 - FastAPI : API légère et rapide
 
 ## 6. Résultats
 
-- Accuracy : ...
 - F1 macro : ...
-- Precision macro : ...
-- Recall macro : ...
 
 ## 7. Limites & améliorations
 

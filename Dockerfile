@@ -10,6 +10,10 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . /app
 
-EXPOSE 8000
+ENV MODEL_PATH=/app/models/iris_species_model.pkl \
+    MLFLOW_BACKEND_URI=file:/app/mlruns \
+    MLFLOW_TRACKING_URI=file:/app/mlruns
 
-CMD ["uvicorn", "scripts.serve:app", "--host", "0.0.0.0", "--port", "8000"]
+EXPOSE 8000 5000
+
+CMD ["/app/entrypoint.sh"]

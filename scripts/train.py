@@ -9,7 +9,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
-from sklearn.model_selection import GridSearchCV, StratifiedKFold, train_test_split
+from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -28,6 +28,7 @@ EXPECTED_COLS = {
 FEATURES = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
 
 SCORING_NAME = "f1_macro"
+FINAL_MODEL_NAME = "LogisticRegression"
 
 
 def load_from_sql(db_path: Path, table: str) -> pd.DataFrame:
@@ -118,8 +119,13 @@ def main() -> None:
     parser.add_argument(
         "--model-out", dest="model_out", default="models/iris_species_model.pkl"
     )
-    parser.add_argument("--test-size", dest="test_size", type=float, default=0.2)
     parser.add_argument("--random-state", dest="random_state", type=int, default=42)
+    parser.add_argument(
+        "--refit-full",
+        dest="refit_full",
+        action="store_true",
+        help="Refit the best model on the full dataset before saving.",
+    )
     parser.add_argument("--cv", dest="cv", type=int, default=5)
     parser.add_argument(
         "--no-search",
@@ -143,13 +149,7 @@ def main() -> None:
     X = df[FEATURES]
     y = df["species"]
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        X,
-        y,
-        test_size=args.test_size,
-        random_state=args.random_state,
-        stratify=y,
-    )
+    X_train, y_train = X, y
 
     tracking_uri = os.getenv("MLFLOW_TRACKING_URI", "file:./mlruns")
     mlflow.set_tracking_uri(tracking_uri)
@@ -158,12 +158,13 @@ def main() -> None:
     with mlflow.start_run(run_name="model_comparison"):
         mlflow.log_param("features", ",".join(FEATURES))
         mlflow.log_param("target", "species")
-        mlflow.log_param("test_size", args.test_size)
         mlflow.log_param("random_state", args.random_state)
         mlflow.log_param("rows", len(df))
         mlflow.log_param("select_metric", SCORING_NAME)
+        mlflow.log_param("final_model", FINAL_MODEL_NAME)
         mlflow.log_param("search", args.search)
         mlflow.log_param("cv_folds", args.cv)
+        mlflow.log_param("refit_full_data", args.refit_full)
         mlflow.log_param("classes", ",".join(sorted(y.unique())))
 
         input_example = X_train.head(2)
@@ -173,6 +174,9 @@ def main() -> None:
             n_splits=args.cv, shuffle=True, random_state=args.random_state
         )
         results = []
+        trained_models = {}
+        metrics_by_model = {}
+        cv_scores = {}
         best_name = None
         best_model = None
         best_metrics = None
@@ -199,8 +203,8 @@ def main() -> None:
                     model = estimator
                     model.fit(X_train, y_train)
 
-                y_pred = model.predict(X_test)
-                metrics = compute_metrics(y_test, y_pred)
+                y_pred = model.predict(X)
+                metrics = compute_metrics(y, y_pred)
 
                 mlflow.log_param("model", name)
                 mlflow.log_metric("f1_macro", metrics["f1_macro"])
@@ -218,6 +222,9 @@ def main() -> None:
                         **metrics,
                     }
                 )
+                trained_models[name] = model
+                metrics_by_model[name] = metrics
+                cv_scores[name] = cv_score
 
                 metric_value = cv_score if args.search else metrics["f1_macro"]
                 if is_better(metric_value, best_metric_value):
@@ -226,8 +233,19 @@ def main() -> None:
                     best_model = model
                     best_metrics = metrics
 
+        if FINAL_MODEL_NAME in trained_models:
+            best_name = FINAL_MODEL_NAME
+            best_model = trained_models[FINAL_MODEL_NAME]
+            best_metrics = metrics_by_model[FINAL_MODEL_NAME]
+            best_metric_value = (
+                cv_scores[FINAL_MODEL_NAME] if args.search else best_metrics["f1_macro"]
+            )
+
         if best_model is None or best_metrics is None or best_name is None:
             raise RuntimeError("Aucun modele n'a pu etre entraine.")
+
+        if args.refit_full:
+            best_model.fit(X, y)
 
         model_out.parent.mkdir(parents=True, exist_ok=True)
         joblib.dump(best_model, model_out)
@@ -237,10 +255,10 @@ def main() -> None:
 
         stats = {
             "rows": len(df),
-            "test_size": args.test_size,
             "select_metric": SCORING_NAME,
             "search": args.search,
             "cv_folds": args.cv,
+            "refit_full_data": args.refit_full,
             "best_model": best_name,
             "best_metrics": best_metrics,
             "all_results": results,
@@ -252,7 +270,7 @@ def main() -> None:
         sorted_results = sorted(results, key=lambda r: r[sort_key], reverse=True)
 
         print("OK: entrainement termine")
-        print(f"Meilleur modele: {best_name}")
+        print(f"Modele selectionne: {best_name}")
         print("f1_macro={f1_macro:.4f}".format(**best_metrics))
         print("Resultats par modele:")
         for row in sorted_results:

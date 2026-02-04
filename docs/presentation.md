@@ -18,11 +18,13 @@
 ## 4. Modèle & métriques (2 min)
 
 - Classification (5 modèles)
-- Accuracy, F1 macro, precision/recall macro
+- Sélection du meilleur modèle via f1_macro
+- Entraînement final sur 100% des données
+- Modèle exporté : LogisticRegression
 
 ## 5. Démo rapide (3 min)
 
-- Run training
+- Run training (refit final sur 100%)
 - MLflow UI
 - API /predict
 
