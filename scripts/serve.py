@@ -21,6 +21,8 @@ class PredictRequest(BaseModel):
 class PredictResponse(BaseModel):
     species_pred: str
     probabilities: Optional[Dict[str, float]] = None
+    confidence: Optional[float] = None
+    decision: Optional[str] = None
 
 
 def load_model(path: Path):
@@ -57,9 +59,19 @@ def predict(request: PredictRequest):
     model = app.state.model
     prediction = model.predict(features)[0]
     probabilities = None
+    confidence = None
+    decision = None
     if hasattr(model, "predict_proba"):
         proba = model.predict_proba(features)[0]
         classes = model.classes_ if hasattr(model, "classes_") else range(len(proba))
         probabilities = {str(cls): float(p) for cls, p in zip(classes, proba)}
+        best_idx = int(proba.argmax())
+        confidence = float(proba[best_idx])
+        decision = f"Je prédis {classes[best_idx]} (p={confidence:.4f})."
 
-    return PredictResponse(species_pred=str(prediction), probabilities=probabilities)
+    return PredictResponse(
+        species_pred=str(prediction),
+        probabilities=probabilities,
+        confidence=confidence,
+        decision=decision,
+    )

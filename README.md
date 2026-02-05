@@ -5,110 +5,55 @@ Pipeline ML complet : ingestion CSV → stockage SQLite → entraînement + MLfl
 ## Prérequis
 
 - Python 3.10+ (local)
-- Docker + Docker Compose (pour la version dockerisée)
+- Docker (pour la version dockerisée)
 
-## Structure
-
-- `scripts/load_db.py` : CSV → SQLite
-- `scripts/train.py` : SQLite → modèle de classification + MLflow
-- `scripts/serve.py` : API FastAPI
-- `data/iris.csv` : dataset
-- `models/` : modèle exporté pour l’API
-- `mlruns/` : tracking MLflow local
-
-## Exécution locale
-
-1. Installer les dépendances
+## Installation
 
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-2. Charger le CSV dans SQLite
+## Lancer l'API (local)
 
 ```bash
-python scripts/load_db.py --csv "Iris Data.csv" --db data/iris.db --table iris_raw
+uvicorn scripts.serve:app --host 0.0.0.0 --port 8000
 ```
 
-3. Entraîner + comparer 5 modèles + log MLflow (classification)
+## Lancer le front Streamlit
 
 ```bash
-python scripts/train.py --db data/iris.db --table iris_raw --model-out models/iris_species_model.pkl
+streamlit run streamlit_app.py
 ```
 
-Par défaut, le meilleur modèle est choisi selon l’**accuracy**. Tu peux changer la métrique de sélection :
+Ouvre http://localhost:8501 (l'API doit etre lancee).
+
+## Tester l'API
 
 ```bash
-python scripts/train.py --db data/iris.db --table iris_raw --model-out models/iris_species_model.pkl --select-metric accuracy
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{"sepal_length": 5.1, "sepal_width": 3.5, "petal_length": 1.4, "petal_width": 0.2}'
 ```
 
-Options: `accuracy`, `f1_macro`, `precision_macro`, `recall_macro`.
-
-Par défaut, une recherche d’hyperparamètres (CV) est faite pour chaque modèle. Pour aller plus vite :
+## Docker (API + MLflow UI)
 
 ```bash
-python scripts/train.py --db data/iris.db --table iris_raw --model-out models/iris_species_model.pkl --no-search
+docker build -t iris-api .
+docker run --rm -p 8000:8000 -p 5000:5000 iris-api
 ```
 
-Tu peux aussi changer le nombre de folds :
+Si le port 5000 est deja utilise :
 
 ```bash
-python scripts/train.py --db data/iris.db --table iris_raw --model-out models/iris_species_model.pkl --cv 3
+docker run --rm -p 8000:8000 -p 5001:5000 iris-api
 ```
 
-4. Lancer l’API
-
-```bash
-uvicorn scripts.serve:app --reload
-```
-
-5. Tester l’API
-
-```bash
-curl -X POST http://127.0.0.1:8000/predict -H "Content-Type: application/json" -d '{"sepal_length": 5.1, "sepal_width": 3.5, "petal_length": 1.4, "petal_width": 0.2}'
-```
-
-6. UI MLflow (optionnel)
-
-```bash
-mlflow ui --backend-store-uri mlruns
-```
-
-## Exécution Docker
-
-1. Build et lancer l’API + MLflow UI
-
-```bash
-docker compose up -d api mlflow
-```
-
-2. Charger le CSV (job)
-
-```bash
-docker compose run --rm load
-```
-
-3. Entraîner le modèle (job)
-
-```bash
-docker compose run --rm train
-```
-
-4. Tester l’API
-
-```bash
-curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d '{"sepal_length": 5.1, "sepal_width": 3.5, "petal_length": 1.4, "petal_width": 0.2}'
-```
-
-5. Ouvrir MLflow UI
-
-- http://localhost:5000
+MLflow UI :
+- http://localhost:5000 (ou http://localhost:5001 si port change)
 
 ## Notes
 
-- Le modèle prédit l’**espèce** à partir de **sepal_length, sepal_width, petal_length, petal_width**.
-- Les métriques sont accuracy, F1 macro, précision macro, rappel macro.
-- 5 modèles sont comparés: LogisticRegression, RandomForestClassifier, KNeighborsClassifier, SVC, DecisionTreeClassifier.
-- L’API dépend du **meilleur modèle** entraîné (`models/iris_species_model.pkl`).
+- Le modele predit l'espece a partir de sepal_length, sepal_width, petal_length, petal_width.
+- La reponse /predict inclut probabilities, confidence et decision.

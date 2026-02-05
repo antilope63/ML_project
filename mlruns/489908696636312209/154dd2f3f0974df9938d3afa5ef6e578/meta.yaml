@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/489908696636312209/154dd2f3f0974df9938d3afa5ef6e578/artifacts
+end_time: 1770198262563
+entry_point_name: ''
+experiment_id: '489908696636312209'
+lifecycle_stage: active
+run_id: 154dd2f3f0974df9938d3afa5ef6e578
+run_name: DecisionTreeClassifier
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770198260476
+status: 3
+tags: []
+user_id: antonin

@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/489908696636312209/4fb96f6add794a59a068f84cd5e80bbc/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '489908696636312209'
+lifecycle_stage: active
+run_id: 4fb96f6add794a59a068f84cd5e80bbc
+run_name: model_comparison
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770197291523
+status: 1
+tags: []
+user_id: antonin

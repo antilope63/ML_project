@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/antonin/Documents/ML_project/mlruns/489908696636312209/310a54010f53457dabd71764f9242f16/artifacts
+end_time: 1770197325125
+entry_point_name: ''
+experiment_id: '489908696636312209'
+lifecycle_stage: active
+run_id: 310a54010f53457dabd71764f9242f16
+run_name: RandomForestClassifier
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770197311797
+status: 3
+tags: []
+user_id: antonin
