@@ -85,6 +85,14 @@ curl -X POST http://127.0.0.1:8000/predict -H "Content-Type: application/json" -
 mlflow ui --backend-store-uri mlruns --host 0.0.0.0 --port 5000
 ```
 
+7. Front Streamlit (optionnel)
+
+```bash
+streamlit run streamlit_app.py
+```
+
+Puis ouvre http://localhost:8501 et verifie que l'API tourne (local ou Docker).
+
 ## Exécution Docker
 
 1. Entraîner un seul modèle (LogisticRegression) sur 100% des données
